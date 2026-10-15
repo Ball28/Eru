@@ -1,0 +1,4 @@
+# Model Checkpoints Directory
+
+Trained model checkpoints (`.pth`) will be saved here by the training and fine-tuning scripts.
+Model weights are excluded from version control via `.gitignore`.

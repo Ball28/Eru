@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eru-llm"
+version = "0.1.0"
+description = "A clean, modular PyTorch implementation of GPT built from scratch following Sebastian Raschka's book."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [
+    { name = "Evan Ball" }
+]
+keywords = ["transformer", "llm", "gpt", "pytorch", "deep-learning", "nlp"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    "torch>=2.2.0",
+    "tiktoken>=0.5.1",
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "pyyaml>=6.0",
+    "tqdm>=4.66.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+]
+viz = [
+    "matplotlib>=3.7.0",
+]
+tensorflow = [
+    "tensorflow>=2.16.0",
+]
+
+[project.scripts]
+eru = "eru.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

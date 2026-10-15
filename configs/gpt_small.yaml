@@ -1,0 +1,18 @@
+# Tiny GPT Model Configuration
+# Designed for ultra-fast local testing on any CPU in seconds
+
+vocab_size: 50257
+context_length: 64
+emb_dim: 128
+n_heads: 4
+n_layers: 2
+drop_rate: 0.0
+qkv_bias: false
+
+# Training defaults
+batch_size: 2
+learning_rate: 0.0004
+weight_decay: 0.1
+num_epochs: 3
+eval_freq: 5
+eval_iter: 1
