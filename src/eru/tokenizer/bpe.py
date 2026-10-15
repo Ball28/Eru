@@ -1,5 +1,5 @@
 """
-Byte Pair Encoding (BPE) wrapper using tiktoken (Chapters 2, 4, 5, 6, 7).
+Byte Pair Encoding (BPE) wrapper using tiktoken.
 """
 
 from typing import List, Optional, Set

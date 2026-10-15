@@ -1,5 +1,5 @@
 """
-Activation functions for transformer architectures (Chapter 4).
+Activation functions for transformer architectures.
 """
 
 import math
@@ -13,7 +13,7 @@ except ImportError:
 
 class GELU(nn.Module):
     """
-    Gaussian Error Linear Unit (GELU) with exact tanh approximation matching GPT-2 (Chapter 4).
+    Gaussian Error Linear Unit (GELU) with exact tanh approximation matching GPT-2.
     formula: 0.5 * x * (1 + tanh(sqrt(2 / pi) * (x + 0.044715 * x^3)))
     """
 

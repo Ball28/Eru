@@ -1,5 +1,5 @@
 """
-Plotting utilities for loss curves and evaluation metrics (Chapter 5, Listing 5.5).
+Plotting utilities for loss curves and evaluation metrics.
 """
 
 from typing import List, Optional

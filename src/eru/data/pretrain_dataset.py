@@ -1,5 +1,5 @@
 """
-Pretraining sliding-window dataset and dataloader (Chapter 2, Listing 2.5-2.6).
+Pretraining sliding-window dataset and dataloader.
 """
 
 from typing import Any, Optional

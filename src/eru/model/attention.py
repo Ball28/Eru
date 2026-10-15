@@ -1,5 +1,5 @@
 """
-Vectorized Multi-Head Self-Attention with causal masking and dropout (Chapter 3, Listing 3.5).
+Vectorized Multi-Head Self-Attention with causal masking and dropout.
 """
 
 try:

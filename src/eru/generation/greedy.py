@@ -1,5 +1,5 @@
 """
-Greedy next-token text generation (Chapter 4, Listing 4.7).
+Greedy next-token text generation.
 """
 
 from typing import Any
@@ -17,7 +17,7 @@ def generate_greedy(
     context_size: int,
 ) -> Any:
     """
-    Greedy deterministic autoregressive generation via next-token argmax (Chapter 4).
+    Greedy deterministic autoregressive generation via next-token argmax.
 
     Args:
         model: GPTModel instance.
@@ -39,5 +39,5 @@ def generate_greedy(
     return idx
 
 
-# Backward-compatible alias matching original naming in Chapter 4
+# Backward-compatible alias matching original naming
 generate_text_simple = generate_greedy

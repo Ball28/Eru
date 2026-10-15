@@ -3,13 +3,13 @@
 This directory holds dataset text and CSV files used for pretraining, classification fine-tuning, and instruction fine-tuning.
 
 ## 1. Edith Wharton's "The Verdict" (`the-verdict.txt`)
-- **Use:** Pretraining sample corpus (Chapters 2–5).
+- **Use:** Pretraining sample corpus.
 - **Source:** Public domain short story by Edith Wharton (1908).
 - **Tokens:** ~5,145 BPE tokens (20,479 characters).
 - **Status:** Bundled directly in `Eru/data/the-verdict.txt`.
 
 ## 2. SMS Spam Collection (`spam/`)
-- **Use:** Classification fine-tuning (Chapter 6).
+- **Use:** Classification fine-tuning.
 - **Files:**
   - `spam/train.csv`: 1,046 balanced samples (50% ham, 50% spam).
   - `spam/validation.csv`: 150 balanced validation samples.
@@ -21,7 +21,7 @@ This directory holds dataset text and CSV files used for pretraining, classifica
   ```
 
 ## 3. Instruction Dataset (`instruction-data.json`)
-- **Use:** Supervised Fine-Tuning / SFT (Chapter 7).
+- **Use:** Supervised Fine-Tuning / SFT.
 - **Format:** Alpaca-style JSON entries with `instruction`, `input`, and `output` keys (1,100 synthetic instruction pairs).
 - **Automated Download:**
   ```bash

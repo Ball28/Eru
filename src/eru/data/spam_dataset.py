@@ -1,5 +1,5 @@
 """
-Spam classification dataset and balancing utilities (Chapter 6).
+Spam classification dataset and balancing utilities.
 """
 
 from typing import Any, Optional, Tuple
@@ -49,7 +49,7 @@ def random_split(
 
 class SpamDataset(Dataset):
     """
-    PyTorch Dataset loading SMS Spam text and binary labels from CSV (Chapter 6, Listing 6.1).
+    PyTorch Dataset loading SMS Spam text and binary labels from CSV.
     """
 
     def __init__(

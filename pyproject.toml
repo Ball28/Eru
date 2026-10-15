@@ -4,8 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "eru-llm"
-version = "0.1.0"
-description = "A clean, modular PyTorch implementation of GPT built from scratch following Sebastian Raschka's book."
+description = "A clean, modular PyTorch implementation of GPT built from scratch with the idea of modular design for simple expirimentation of LLMs"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "Apache-2.0" }

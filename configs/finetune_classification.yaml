@@ -1,4 +1,4 @@
-# SMS Spam Classification Fine-Tuning Configuration (Chapter 6)
+# SMS Spam Classification Fine-Tuning Configuration
 
 model:
   vocab_size: 50257

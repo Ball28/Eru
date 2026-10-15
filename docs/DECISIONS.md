@@ -48,7 +48,7 @@ The repository contains four implementations of attention:
 ### Decision
 - Consolidate the real neural network modules into canonical files:
   - `Eru/src/eru/model/normalization.py`: `LayerNorm` (with epsilon $1\times 10^{-5}$, trainable scale and shift).
-  - `Eru/src/eru/model/activations.py`: `GELU` (exact tanh approximation from Chapter 4).
+  - `Eru/src/eru/model/activations.py`: `GELU`
   - `Eru/src/eru/model/feedforward.py`: `FeedForward` (expansion factor $4\times$, `GELU`, linear projection).
   - `Eru/src/eru/model/transformer_block.py`: `TransformerBlock` (pre-LayerNorm, residual connections, dropout, `MultiHeadAttention`, and `FeedForward`).
 - `DummyGPTModel.py` is archived to `archive/DummyGPTModel.py`.
@@ -86,9 +86,9 @@ Two versions of text generation exist:
 
 ### Context
 The repository has three separate training domains:
-1. **Language Model Pretraining (Chapters 4–5):** `TextGen.py` and `test.py`.
-2. **Classification Fine-Tuning (Chapter 6):** `finetuning.py`.
-3. **Instruction Fine-Tuning / SFT (Chapter 7):** `DSDownload.py`.
+1. **Language Model Pretraining:** `TextGen.py` and `test.py`.
+2. **Classification Fine-Tuning:** `finetuning.py`.
+3. **Instruction Fine-Tuning / SFT:** `DSDownload.py`.
 
 ### Decision
 - Cleanly separate each pipeline into reusable library modules and executable CLI subcommands:

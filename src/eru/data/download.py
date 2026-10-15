@@ -1,5 +1,5 @@
 """
-Download helpers for external datasets (Chapters 6 and 7).
+Download helpers for external datasets.
 """
 
 import json

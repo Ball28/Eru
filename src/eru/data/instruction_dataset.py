@@ -1,5 +1,5 @@
 """
-Instruction fine-tuning dataset and prompt formatting (Chapter 7, Listing 7.1).
+Instruction fine-tuning dataset and prompt formatting.
 """
 
 from typing import Any, Dict, List

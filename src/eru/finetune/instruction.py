@@ -1,5 +1,5 @@
 """
-Instruction fine-tuning (Supervised Fine-Tuning / SFT) engine (Chapter 7).
+Instruction fine-tuning (Supervised Fine-Tuning / SFT) engine.
 """
 
 from typing import Any, Dict, List, Optional, Tuple

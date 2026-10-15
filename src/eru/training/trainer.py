@@ -1,5 +1,5 @@
 """
-Standard pretraining training loop (Chapter 5, Listing 5.2).
+Standard pretraining training loop.
 """
 
 from typing import Any, Callable, Dict, List, Optional, Tuple

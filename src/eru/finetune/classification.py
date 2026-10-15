@@ -1,5 +1,5 @@
 """
-Spam classification fine-tuning routines (Chapter 6).
+Spam classification fine-tuning routines.
 """
 
 from typing import Any, List, Optional, Tuple
@@ -17,7 +17,7 @@ except ImportError:
 def setup_spam_classifier_head(model: Any, num_classes: int = 2) -> None:
     """
     Freeze all base transformer layers and replace the language modeling head
-    with a binary classification linear layer (Chapter 6, Listing 6.3).
+    with a binary classification linear layer.
     Only the last transformer block, final norm, and new out_head are trainable.
     """
     for param in model.parameters():
@@ -142,7 +142,7 @@ def classify_review(
     pad_token_id: int = 50256,
 ) -> str:
     """
-    Classify a single raw text string as 'spam' or 'not spam' (Chapter 6).
+    Classify a single raw text string as 'spam' or 'not spam'.
     """
     model.eval()
     input_ids = tokenizer.encode(text)

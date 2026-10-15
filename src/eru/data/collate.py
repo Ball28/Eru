@@ -1,5 +1,5 @@
 """
-Custom collate functions for dynamic batch padding and cross-entropy ignore index masking (Chapter 7).
+Custom collate functions for dynamic batch padding and cross-entropy ignore index masking.
 """
 
 from typing import Any, List, Optional, Tuple

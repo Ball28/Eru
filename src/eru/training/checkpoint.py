@@ -1,5 +1,5 @@
 """
-Checkpoint saving and loading utilities for models and optimizers (Chapter 5, Listing 5.4).
+Checkpoint saving and loading utilities for models and optimizers.
 """
 
 import os

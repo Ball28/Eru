@@ -1,5 +1,5 @@
 """
-FeedForward network for transformer block (Chapter 4).
+FeedForward network for transformer block.
 """
 
 from typing import Any, Dict

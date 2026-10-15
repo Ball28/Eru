@@ -1,5 +1,5 @@
 """
-Canonical GPTModel implementation and standard configuration definitions (Chapter 4, Listing 4.6).
+Canonical GPTModel implementation and standard configuration definitions.
 """
 
 from typing import Any, Dict

@@ -1,5 +1,5 @@
 """
-Sampling-based and temperature-scaled text generation (Chapter 5, Listing 5.3).
+Sampling-based and temperature-scaled text generation.
 """
 
 from typing import Any, Optional

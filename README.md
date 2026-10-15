@@ -3,8 +3,7 @@
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Python: 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/)
 
-**Eru** is a clean, cohesive, fully tested PyTorch implementation of a Generative Pretrained Transformer (GPT) built from scratch following Sebastian Raschka's book *Build a Large Language Model (From Scratch)* (Manning Publications).
-
+**Eru** is a clean, cohesive, fully tested PyTorch implementation of a Generative Pretrained Transformer (GPT) built from scratch
 Every component—tokenization, multi-head causal attention, pre-norm transformer blocks, pretraining loops, classification fine-tuning, instruction tuning (SFT), and text generation—is modular, type-hinted, and accompanied by automated tests.
 
 ---
@@ -33,8 +32,8 @@ Train a small GPT model on your CPU and generate text immediately:
 
 ```bash
 # Option A — clone the full repo and enter the Eru project root:
-git clone https://github.com/Ball28/SimpleTokenizerV1.git
-cd SimpleTokenizerV1/Eru
+git clone https://github.com/Ball28/Eru.git
+cd Eru
 
 # Option B — download only the Eru/ folder (it is fully self-contained):
 # cd /path/to/downloaded/Eru
@@ -126,7 +125,7 @@ python scripts/generate_text.py --prompt "The secret was" --weights checkpoints/
 
 ### 3. Fine-Tune for SMS Spam Classification
 
-Fine-tune a GPT model to classify SMS messages as spam or not spam (Chapter 6):
+Fine-tune a GPT model to classify SMS messages as spam or not spam:
 
 ```bash
 # Using CLI
@@ -138,7 +137,7 @@ python scripts/finetune_spam.py --train-csv data/spam/train.csv --val-csv data/s
 
 ### 4. Instruction Fine-Tuning (SFT)
 
-Fine-tune a model on Alpaca-style instruction pairs (Chapter 7):
+Fine-tune a model on Alpaca-style instruction pairs:
 
 ```bash
 python scripts/finetune_instruction.py
@@ -212,4 +211,3 @@ Eru uses declarative YAML files in `configs/`. Key parameters:
 ## Attribution & License
 
 - Licensed under the **Apache License 2.0**. See [`LICENSE`](LICENSE) for details.
-- Code design based on *Build a Large Language Model (From Scratch)* by Sebastian Raschka (Manning Publications). See [`NOTICE.md`](NOTICE.md) for full citations.

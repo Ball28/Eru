@@ -1,8 +1,3 @@
-"""
-Educational self-attention variants from Chapter 3 of 'Build a Large Language Model (From Scratch)'.
-Preserved for instructional clarity and characterization testing.
-"""
-
 try:
     import torch
     import torch.nn as nn

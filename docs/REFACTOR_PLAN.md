@@ -1,8 +1,7 @@
 # Refactoring Plan: Eru LLM Project
 
 **Project Name:** Eru (LLM From Scratch)  
-**Branch:** `refactor/cohesive-structure`  
-**Reference:** Sebastian Raschka, *Build a Large Language Model (From Scratch)*  
+**Branch:** `refactor/cohesive-structure`   
 **Date:** October 2026  
 **Status:** Awaiting User Approval (Phase 2 Checkpoint)
 
@@ -45,7 +44,7 @@ SimpleTokenizerV1/                           # Git Repository Root
 ├── Eru/                                     # Clean, installable project root ("Eru")
 │   ├── README.md                            # Complete quickstart, install, and usage guide
 │   ├── LICENSE                              # Project license (Apache 2.0 / MIT)
-│   ├── NOTICE.md                            # Attribution to Sebastian Raschka & OpenAI
+│   ├── NOTICE.md                            # Attribution to OpenAI
 │   ├── pyproject.toml                       # Modern PEP 621 package specification
 │   ├── requirements.txt                     # Pinned direct dependencies
 │   ├── .gitignore                           # Clean gitignore excluding __pycache__, checkpoints
@@ -242,7 +241,6 @@ Run the golden characterization tests against the refactored `eru` package, veri
 ### Step 3.7: Packaging & Documentation
 - Author `Eru/pyproject.toml` and `Eru/requirements.txt`.
 - Author `Eru/README.md` with foolproof, step-by-step instructions for installation, training, fine-tuning, and text generation.
-- Author `NOTICE.md` providing full attribution to Sebastian Raschka and Manning Publications.
 
 ---
 

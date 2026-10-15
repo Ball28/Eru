@@ -3,13 +3,10 @@
 **Date:** October 2026  
 **Auditor:** Senior ML Engineer & Technical Writer  
 **Branch:** `refactor/cohesive-structure`  
-**Reference Material:** Sebastian Raschka, *Build a Large Language Model (From Scratch)* (Manning Publications)
 
 ---
 
 ## 1. Executive Summary
-
-This repository contains experimental code developed while following Chapters 2 through 7 of Sebastian Raschka's book *Build a Large Language Model (From Scratch)*. The codebase successfully demonstrates foundational concepts of generative pretrained transformers:
 1. Custom tokenization and byte pair encoding (tiktoken).
 2. Data preparation and causal sliding-window dataloaders.
 3. Multi-head self-attention and GPT-2 architectural components in PyTorch.
@@ -68,7 +65,7 @@ However, the current repository state is highly fragmented and exhibits common s
   - `SimpleTokenizerV2.py`: `SimpleTokenizationV2` (adds `<|unk|>` and `<|endoftext|>`).
   - `BPETokenizer.py`: Direct script usage of `tiktoken.get_encoding("gpt2")`.
 - **Assessment & Canonical Choice:**
-  - `SimpleTokenizerV1` and `SimpleTokenizerV2` are educational implementations from Chapter 2. In `SimpleTokenizerV2.py`, line 33 contains a bug:
+  - `SimpleTokenizerV1` and `SimpleTokenizerV2` are educational implementations. In `SimpleTokenizerV2.py`, line 33 contains a bug:
     ```python
     text = re.sub(r'([,.:;?_!"()\']|--|\s)', r'\1', text)  # Bug: does not remove space before punctuation
     ```

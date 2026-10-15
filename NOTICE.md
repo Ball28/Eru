@@ -1,12 +1,5 @@
 # Notice & Attribution
 
-This project, **Eru**, contains code derived from or inspired by the educational book and accompanying repository:
-
-- **Book:** *Build a Large Language Model (From Scratch)* by Sebastian Raschka
-- **Publisher:** Manning Publications (2024–2025)
-- **Original Repository:** [https://github.com/rasbt/LLMs-from-scratch](https://github.com/rasbt/LLMs-from-scratch)
-- **Original Author:** Sebastian Raschka (licensed under Apache License 2.0)
-
 Portions of code relating to GPT-2 weight loading and tokenization were originally developed by OpenAI:
 - **OpenAI GPT-2:** [https://github.com/openai/gpt-2](https://github.com/openai/gpt-2) (MIT License)
 

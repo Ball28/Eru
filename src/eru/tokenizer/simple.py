@@ -1,7 +1,3 @@
-"""
-Educational simple tokenizers from Chapter 2 of 'Build a Large Language Model (From Scratch)'.
-"""
-
 import re
 from typing import Dict, List, Optional
 
@@ -28,7 +24,7 @@ def build_vocab_from_text(raw_text: str, add_special_tokens: bool = False) -> Di
 
 class SimpleTokenizerV1:
     """
-    Basic vocabulary-based tokenizer without unknown-token handling (Chapter 2, Listing 2.1-2.2).
+    Basic vocabulary-based tokenizer without unknown-token handling.
     """
 
     def __init__(self, vocab: Dict[str, int]):
@@ -51,7 +47,7 @@ class SimpleTokenizerV1:
 
 class SimpleTokenizerV2:
     """
-    Enhanced tokenizer handling unknown tokens with <|unk|> and end-of-text markers (Chapter 2, Listing 2.3-2.4).
+    Enhanced tokenizer handling unknown tokens with <|unk|> and end-of-text markers.
     """
 
     def __init__(self, vocab: Dict[str, int], unk_token: str = "<|unk|>"):
@@ -74,7 +70,7 @@ class SimpleTokenizerV2:
         Args:
             ids: List of token integers.
             fix_punctuation: If True (default), removes spaces before punctuation.
-                             If False, reproduces the original Chapter 2 verbatim bug for test parity.
+                             If False, reproduces the original verbatim bug for test parity.
         """
         text = " ".join([self.int_to_str[i] for i in ids])
         if fix_punctuation:

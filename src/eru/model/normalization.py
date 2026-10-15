@@ -1,5 +1,5 @@
 """
-Layer normalization implementation (Chapter 4).
+Layer normalization implementation.
 """
 
 try:

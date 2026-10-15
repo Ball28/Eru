@@ -1,6 +1,5 @@
 """
-TensorFlow GPT-2 checkpoint downloader and parameter extractor (Chapter 5).
-Based on Sebastian Raschka's original implementation under Apache License 2.0.
+TensorFlow GPT-2 checkpoint downloader and parameter extractor.
 """
 
 import json

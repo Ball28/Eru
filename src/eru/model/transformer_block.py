@@ -1,5 +1,5 @@
 """
-Transformer block with Pre-LayerNorm and residual shortcut connections (Chapter 4, Listing 4.3).
+Transformer block with Pre-LayerNorm and residual shortcut connections.
 """
 
 from typing import Any, Dict

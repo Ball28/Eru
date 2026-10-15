@@ -1,4 +1,4 @@
-# Instruction Fine-Tuning (SFT) Configuration (Chapter 7)
+# Instruction Fine-Tuning (SFT) Configuration
 
 model:
   vocab_size: 50257

@@ -1,5 +1,5 @@
 """
-Pure PyTorch weight loading and assignment into GPTModel (Chapter 5, Listing 5.5).
+Pure PyTorch weight loading and assignment into GPTModel.
 """
 
 from typing import Any, Dict

@@ -1,5 +1,5 @@
 """
-Loss calculation and evaluation routines for language model pretraining (Chapter 5, Listing 5.1).
+Loss calculation and evaluation routines for language model pretraining.
 """
 
 from typing import Any, Optional, Tuple
