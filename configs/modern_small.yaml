@@ -1,0 +1,13 @@
+# Modern Architecture Small Configuration (RoPE + RMSNorm + SwiGLU + GQA + SDPA)
+vocab_size: 50257
+context_length: 128
+emb_dim: 128
+n_heads: 4
+n_kv_heads: 2
+n_layers: 2
+drop_rate: 0.0
+qkv_bias: false
+pos_emb_type: "rope"
+norm_type: "rmsnorm"
+ffn_type: "swiglu"
+use_sdpa: true

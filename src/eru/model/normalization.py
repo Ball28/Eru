@@ -1,5 +1,5 @@
 """
-Layer normalization implementation.
+Normalization layers for transformer architectures: LayerNorm and RMSNorm.
 """
 
 try:
@@ -26,3 +26,21 @@ class LayerNorm(nn.Module):
         var = x.var(dim=-1, keepdim=True, unbiased=False)
         norm_x = (x - mean) / torch.sqrt(var + self.eps)
         return self.scale * norm_x + self.shift
+
+
+class RMSNorm(nn.Module):
+    """
+    Root Mean Square Normalization (RMSNorm).
+    Used by modern LLMs (LLaMA, Mistral, Gemma).
+    Eliminates mean-centering overhead while providing identical numerical stabilization.
+    """
+
+    def __init__(self, emb_dim: int, eps: float = 1e-6):
+        super().__init__()
+        self.eps = eps
+        self.scale = nn.Parameter(torch.ones(emb_dim))
+
+    def forward(self, x: "torch.Tensor") -> "torch.Tensor":
+        variance = x.pow(2).mean(dim=-1, keepdim=True)
+        norm_x = x * torch.rsqrt(variance + self.eps)
+        return self.scale * norm_x

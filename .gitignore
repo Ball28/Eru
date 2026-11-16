@@ -44,6 +44,8 @@ htmlcov/
 *.pth
 *.pt
 *.ckpt
+*.bin
+data/bin/
 checkpoints/*
 !checkpoints/.gitkeep
 gpt2/

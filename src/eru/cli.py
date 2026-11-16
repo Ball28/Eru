@@ -10,11 +10,11 @@ from typing import Optional
 from eru.tokenizer.bpe import BPETokenizer
 from eru.tokenizer.utils import text_to_token_ids, token_ids_to_text
 from eru.model.gpt import GPTModel, GPT_CONFIG_124M, GPT_CONFIG_SMALL
-from eru.generation.sampling import generate
+from eru.generation.sampling import generate, generate_stream
 from eru.utils.device import get_device
 from eru.utils.seed import set_seed
 from eru.utils.config import load_config
-from eru.training.trainer import train_model_simple
+from eru.training.trainer import train_model_simple, get_cosine_schedule_with_warmup
 from eru.training.checkpoint import save_checkpoint, load_checkpoint
 from eru.data.pretrain_dataset import create_pretrain_dataloader
 
@@ -30,6 +30,9 @@ def cli_train(args):
         cfg = load_config(args.config)
     else:
         cfg = GPT_CONFIG_SMALL if args.small else GPT_CONFIG_124M
+
+    if getattr(args, "use_sdpa", False):
+        cfg["use_sdpa"] = True
 
     # Load text corpus
     data_path = Path(args.data)
@@ -68,6 +71,15 @@ def cli_train(args):
     model = GPTModel(cfg).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
 
+    total_steps = len(train_loader) * args.epochs
+    scheduler = None
+    if getattr(args, "warmup_steps", 0) > 0:
+        scheduler = get_cosine_schedule_with_warmup(
+            optimizer=optimizer,
+            num_warmup_steps=args.warmup_steps,
+            num_training_steps=total_steps,
+        )
+
     print(f"Training model ({sum(p.numel() for p in model.parameters()):,} parameters) for {args.epochs} epochs...")
     train_losses, val_losses, _ = train_model_simple(
         model=model,
@@ -78,6 +90,9 @@ def cli_train(args):
         num_epochs=args.epochs,
         eval_freq=args.eval_freq,
         eval_iter=args.eval_iter,
+        use_amp=getattr(args, "use_amp", False),
+        max_grad_norm=getattr(args, "clip_grad", 1.0),
+        scheduler=scheduler,
     )
 
     if args.output:
@@ -85,7 +100,7 @@ def cli_train(args):
 
 
 def cli_generate(args):
-    """Generate text from a model checkpoint."""
+    """Generate text from a model checkpoint with optional streaming and KV-cache."""
     set_seed(args.seed)
     device = get_device(args.device)
 
@@ -93,6 +108,9 @@ def cli_generate(args):
         cfg = load_config(args.config)
     else:
         cfg = GPT_CONFIG_SMALL if args.small else GPT_CONFIG_124M
+
+    if getattr(args, "use_sdpa", False):
+        cfg["use_sdpa"] = True
 
     model = GPTModel(cfg).to(device)
     if args.weights:
@@ -103,16 +121,93 @@ def cli_generate(args):
     input_ids = text_to_token_ids(args.prompt, tokenizer, device=device)
 
     print(f"\n--- Prompt ---\n{args.prompt}\n--- Generation ---")
-    out_ids = generate(
-        model=model,
-        idx=input_ids,
-        max_new_tokens=args.max_tokens,
-        context_size=cfg["context_length"],
-        temperature=args.temperature,
-        top_k=args.top_k,
-    )
-    output_text = token_ids_to_text(out_ids, tokenizer)
-    print(output_text)
+    use_cache = not getattr(args, "no_cache", False)
+
+    if getattr(args, "stream", False):
+        for _, token_str in generate_stream(
+            model=model,
+            idx=input_ids,
+            max_new_tokens=args.max_tokens,
+            context_size=cfg["context_length"],
+            tokenizer=tokenizer,
+            temperature=args.temperature,
+            top_k=args.top_k,
+            top_p=getattr(args, "top_p", None),
+            min_p=getattr(args, "min_p", None),
+            repetition_penalty=getattr(args, "repetition_penalty", 1.0),
+            use_cache=use_cache,
+        ):
+            print(token_str or "", end="", flush=True)
+        print()
+    else:
+        out_ids = generate(
+            model=model,
+            idx=input_ids,
+            max_new_tokens=args.max_tokens,
+            context_size=cfg["context_length"],
+            temperature=args.temperature,
+            top_k=args.top_k,
+            top_p=getattr(args, "top_p", None),
+            min_p=getattr(args, "min_p", None),
+            repetition_penalty=getattr(args, "repetition_penalty", 1.0),
+            use_cache=use_cache,
+        )
+        output_text = token_ids_to_text(out_ids, tokenizer)
+        print(output_text)
+
+
+def cli_chat(args):
+    """Interactive real-time streaming chat REPL with the model."""
+    set_seed(args.seed)
+    device = get_device(args.device)
+
+    if args.config:
+        cfg = load_config(args.config)
+    else:
+        cfg = GPT_CONFIG_SMALL if args.small else GPT_CONFIG_124M
+
+    if getattr(args, "use_sdpa", False):
+        cfg["use_sdpa"] = True
+
+    model = GPTModel(cfg).to(device)
+    if args.weights:
+        load_checkpoint(args.weights, model=model, device=device)
+    model.eval()
+
+    tokenizer = BPETokenizer()
+    model_name = "Eru Small" if args.small else "Eru 124M"
+    print(f"\n=== Eru Interactive Chat ({model_name}) ===")
+    print("Type your prompt and press Enter. Type 'exit' or 'quit' to terminate.\n")
+
+    while True:
+        try:
+            user_input = input("You > ").strip()
+        except (KeyboardInterrupt, EOFError):
+            print("\nExiting chat.")
+            break
+        if not user_input:
+            continue
+        if user_input.lower() in ("exit", "quit", "q"):
+            print("Goodbye!")
+            break
+
+        input_ids = text_to_token_ids(user_input, tokenizer, device=device)
+        print("Eru > ", end="", flush=True)
+        for _, token_str in generate_stream(
+            model=model,
+            idx=input_ids,
+            max_new_tokens=args.max_tokens,
+            context_size=cfg["context_length"],
+            tokenizer=tokenizer,
+            temperature=args.temperature,
+            top_k=args.top_k,
+            top_p=getattr(args, "top_p", None),
+            min_p=getattr(args, "min_p", None),
+            repetition_penalty=getattr(args, "repetition_penalty", 1.0),
+            use_cache=True,
+        ):
+            print(token_str or "", end="", flush=True)
+        print("\n")
 
 
 def cli_finetune_spam(args):
@@ -185,6 +280,10 @@ def main():
     p_train.add_argument("--batch-size", type=int, default=2, help="Batch size.")
     p_train.add_argument("--lr", type=float, default=0.0004, help="Learning rate.")
     p_train.add_argument("--weight-decay", type=float, default=0.1, help="Weight decay.")
+    p_train.add_argument("--warmup-steps", type=int, default=0, help="Linear warmup steps.")
+    p_train.add_argument("--clip-grad", type=float, default=1.0, help="Max gradient norm clipping.")
+    p_train.add_argument("--use-amp", action="store_true", help="Enable Automatic Mixed Precision (AMP).")
+    p_train.add_argument("--use-sdpa", action="store_true", help="Use PyTorch scaled dot-product attention.")
     p_train.add_argument("--eval-freq", type=int, default=5, help="Step evaluation frequency.")
     p_train.add_argument("--eval-iter", type=int, default=1, help="Batches per evaluation.")
     p_train.add_argument("--device", default=None, help="Execution device (cpu, cuda, mps).")
@@ -201,9 +300,30 @@ def main():
     p_gen.add_argument("--max-tokens", type=int, default=25, help="Maximum new tokens.")
     p_gen.add_argument("--temperature", type=float, default=1.0, help="Sampling temperature.")
     p_gen.add_argument("--top-k", type=int, default=25, help="Top-k filtering threshold.")
+    p_gen.add_argument("--top-p", type=float, default=None, help="Top-p (nucleus) threshold (0.0 to 1.0).")
+    p_gen.add_argument("--min-p", type=float, default=None, help="Min-p sampling threshold.")
+    p_gen.add_argument("--repetition-penalty", type=float, default=1.0, help="Repetition penalty.")
+    p_gen.add_argument("--stream", action="store_true", help="Stream generated tokens in real-time.")
+    p_gen.add_argument("--no-cache", action="store_true", help="Disable KV-cache acceleration.")
+    p_gen.add_argument("--use-sdpa", action="store_true", help="Use PyTorch scaled dot-product attention.")
     p_gen.add_argument("--device", default=None, help="Execution device (cpu, cuda, mps).")
     p_gen.add_argument("--seed", type=int, default=123, help="Random seed.")
     p_gen.set_defaults(func=cli_generate)
+
+    # Chat sub-command
+    p_chat = subparsers.add_parser("chat", help="Interactive streaming chat REPL.")
+    p_chat.add_argument("--weights", default=None, help="Path to checkpoint weights.")
+    p_chat.add_argument("--config", default=None, help="Path to YAML configuration file.")
+    p_chat.add_argument("--small", action="store_true", help="Use small fast CPU configuration.")
+    p_chat.add_argument("--max-tokens", type=int, default=100, help="Maximum tokens per response.")
+    p_chat.add_argument("--temperature", type=float, default=0.7, help="Sampling temperature.")
+    p_chat.add_argument("--top-k", type=int, default=40, help="Top-k filtering threshold.")
+    p_chat.add_argument("--top-p", type=float, default=0.9, help="Top-p nucleus threshold.")
+    p_chat.add_argument("--min-p", type=float, default=0.05, help="Min-p threshold.")
+    p_chat.add_argument("--repetition-penalty", type=float, default=1.1, help="Repetition penalty.")
+    p_chat.add_argument("--device", default=None, help="Execution device.")
+    p_chat.add_argument("--seed", type=int, default=123, help="Random seed.")
+    p_chat.set_defaults(func=cli_chat)
 
     # Finetune spam sub-command
     p_ft = subparsers.add_parser("finetune-spam", help="Fine-tune GPT-2 for spam classification.")
